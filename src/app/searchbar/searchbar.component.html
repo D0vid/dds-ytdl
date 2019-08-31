@@ -1,0 +1,7 @@
+<div class="search__container">
+    <input #search autofocus class="search__input" type="text" placeholder="Search" (keyup.enter)="updateSearchToken(search)">
+    <i class="fas fa-times icon" (click)="search.value = ''; search.value = ''"></i>
+    <i class="fas fa-search icon" (click)="updateSearchToken(search)"></i>
+</div>
+<p>Enter youtube video / playlist link or search terms & press <span>enter</span></p>
+<app-search-result-area [searchtoken]="searchtoken"></app-search-result-area>

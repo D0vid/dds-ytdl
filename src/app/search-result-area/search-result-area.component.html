@@ -1,0 +1,16 @@
+<div class="videos">
+  <p *ngIf="message != ''" class="error">{{message}}</p>
+  <div class="video" *ngFor="let video of result">
+    <div class="cursorzone" >
+      <img class="image" src="{{video.thumbnail}}">
+      <div (click)="download(video)">
+        <div class="overlay">
+          <i class="fas fa-download fa-3x download"></i>
+        </div>
+        <div class="text">{{video.title}}</div>
+      </div>
+    </div>
+    <span><i class="fas fa-download fa-3x mobile download" (click)="download(video)"></i></span>
+  </div>
+</div>
+
