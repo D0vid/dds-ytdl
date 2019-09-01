@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  API_KEY: 'AIzaSyBr73_44u8x7cd9KVCVem9X5NqBbL6AB0E',
+  API_KEY: 'AIzaSyDZe0DoE9zoB2wYnpccDMSm1VrfClk00WI',
   SERVER_URL: "http://localhost:4000"
 };
 
