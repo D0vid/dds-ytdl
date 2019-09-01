@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, SimpleChange } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Video } from '../_models/video';
-import { YoutubeDataAPI } from 'youtube-v3-api';
 import { SearchService } from '../_services/search-service';
 import { TokenHandler } from '../_services/token-handler';
 
@@ -20,7 +19,6 @@ export class SearchResultAreaComponent implements OnInit {
   @Input() searchtoken : string;
   result : Video[] = [];
   message : string = "";
-  api = new YoutubeDataAPI(environment.API_KEY);
 
   constructor(private searchService : SearchService, private handler : TokenHandler) { }
 
