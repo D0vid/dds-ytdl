@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, SimpleChange } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Video } from '../_models/video';
-import { TokenHandler } from '../_services/token-handler';
 import { YoutubeDataAPI } from 'youtube-v3-api';
+import { SearchService } from '../_services/search-service';
+import { TokenHandler } from '../_services/token-handler';
 
 interface InputChange extends SimpleChange {
   searchtoken?: SimpleChange;
@@ -21,7 +22,7 @@ export class SearchResultAreaComponent implements OnInit {
   message : string = "";
   api = new YoutubeDataAPI(environment.API_KEY);
 
-  constructor(private handler : TokenHandler) { }
+  constructor(private searchService : SearchService, private handler : TokenHandler) { }
 
   ngOnInit() {
     this.message = '';
@@ -33,31 +34,37 @@ export class SearchResultAreaComponent implements OnInit {
     let token: string = changes.searchtoken.currentValue;
     this.result = [];
 
-    if (this.handler.tokenIsVideoUrl(token)) {
-      this.searchByToken(this.handler.extractVideoId(token),1);
-    } else if (this.handler.tokenIsPlaylistUrl(token)) {
-      this.searchPlaylist(this.handler.extractPlaylistId(token));
+    if (this.handler.tokenIsPlaylistUrl(token)) {
+      this.searchByPlaylistId(this.handler.extractPlaylistId(token));
+    } else if (this.handler.tokenIsVideoUrl(token)) {
+      this.searchByVideoId(this.handler.extractVideoId(token));
     } else if (this.handler.tokenIsText(token)) {
-      this.searchByToken(token,21);
+      this.searchByToken(token);
     }
   }
 
-  searchPlaylist(id : string) {
-    this.api.searchPlaylistItems(id,50).then((data : any) => {
-      data.items.forEach(vid => {
-        this.result.push(new Video(vid.id.videoId,vid.snippet.title, vid.snippet.thumbnails.medium.url));
-      });
-      if (this.result.length == 0) { this.message = "No result found"}
-    }).catch(() => this.message = "An error occured during the search operation");
+  searchByPlaylistId(id : string) {
+    this.searchService.getSearchResultsForPlaylist(id).subscribe((data : any) => {
+      data.forEach(vid => this.result.push(new Video(vid.Id,vid.Title, vid.Thumbnails.MediumResUrl)));
+      if (this.result.length == 0) this.message = "No result found";
+    },
+    error => this.message = "Couldn't conduct search succesfully");
   }
 
-  searchByToken(token : string, maxresults : number) {
-    this.api.searchAll(token, maxresults,{type:'video'}).then((data : any) => {
-      data.items.forEach(vid => {
-        this.result.push(new Video(vid.id.videoId,vid.snippet.title, vid.snippet.thumbnails.medium.url));
-      });
-      if (this.result.length == 0) { this.message = "No result found"}
-    }).catch(() => this.message = "An error occured during the search operation");
+  searchByVideoId(id : string) {
+    this.searchService.getSearchResultsForVideo(id).subscribe((data : any) => {
+      this.result.push(new Video(data.Id,data.Title, data.Thumbnails.MediumResUrl));
+      if (this.result.length == 0) this.message = "No result found";
+    },
+    error => this.message = "Couldn't conduct search succesfully");
+  }
+
+  searchByToken(token : string) {
+    this.searchService.getSearchResultsForToken(token).subscribe((data : any) => {
+      data.forEach(vid => this.result.push(new Video(vid.Id,vid.Title, vid.Thumbnails.MediumResUrl)));
+      if (this.result.length == 0) this.message = "No result found";
+    },
+    error => this.message = "Couldn't conduct search succesfully");
   }
 
   goToVideo(video : Video) {
@@ -65,7 +72,6 @@ export class SearchResultAreaComponent implements OnInit {
   }
 
   download(video : Video) {
-    let title = video.title.replace(new RegExp(/[^\w]/g),' ').replace(new RegExp(/[ ]{2,}/g),' ');
-    window.location.href = `${environment.SERVER_URL}/download?URL=${video.getUrl()}&title=${title}`;
+    window.location.href = `${environment.SERVER_URL}/download/${video.id}`;
   }
 }

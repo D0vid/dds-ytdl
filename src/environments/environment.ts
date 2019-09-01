@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   API_KEY: 'AIzaSyDZe0DoE9zoB2wYnpccDMSm1VrfClk00WI',
-  SERVER_URL: "http://localhost:4000"
+  SERVER_URL: "https://localhost:44394"
 };
 
 /*
