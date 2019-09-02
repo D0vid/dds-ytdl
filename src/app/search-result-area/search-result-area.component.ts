@@ -93,6 +93,6 @@ export class SearchResultAreaComponent implements OnInit {
   }
 
   download(video : Video) {
-    window.location.href = `${environment.SERVER_URL}/download/${video.id}`;
+    window.open(`${environment.SERVER_URL}/download/${video.id}`, '_blank');
   }
 }
