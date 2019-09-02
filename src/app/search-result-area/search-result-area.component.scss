@@ -95,3 +95,10 @@
     display: none;
   }
 }
+
+.loading {
+  width: 150px;
+  height: 150px;
+  opacity: 0;
+  transition: 0.7s;
+}

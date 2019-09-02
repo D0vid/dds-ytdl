@@ -1,3 +1,4 @@
+<img class="loading" src="assets/loading.gif" [style.opacity]="loading" [style.height.px]="loadingHeight"/>
 <div class="videos">
   <p *ngIf="message != ''" class="error">{{message}}</p>
   <div class="video" *ngFor="let video of result">

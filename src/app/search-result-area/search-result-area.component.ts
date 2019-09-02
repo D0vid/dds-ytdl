@@ -19,6 +19,8 @@ export class SearchResultAreaComponent implements OnInit {
   @Input() searchtoken : string;
   result : Video[] = [];
   message : string = "";
+  loading : number = 0;
+  loadingHeight : number = 0;
 
   constructor(private searchService : SearchService, private handler : TokenHandler) { }
 
@@ -31,7 +33,10 @@ export class SearchResultAreaComponent implements OnInit {
     this.message = '';
     let token: string = changes.searchtoken.currentValue;
     this.result = [];
-
+    if (token != "") {
+      this.loading = 0.3;
+      this.loadingHeight = 200;
+    }
     if (this.handler.tokenIsPlaylistUrl(token)) {
       this.searchByPlaylistId(this.handler.extractPlaylistId(token));
     } else if (this.handler.tokenIsVideoUrl(token)) {
@@ -45,24 +50,42 @@ export class SearchResultAreaComponent implements OnInit {
     this.searchService.getSearchResultsForPlaylist(id).subscribe((data : any) => {
       data.forEach(vid => this.result.push(new Video(vid.Id,vid.Title, vid.Thumbnails.MediumResUrl)));
       if (this.result.length == 0) this.message = "No result found";
+      this.loading = 0;
+      this.loadingHeight = 0;
     },
-    error => this.message = "Couldn't conduct search succesfully");
+    error => {
+      this.message = "Couldn't conduct search succesfully";
+      this.loading = 0;
+      this.loadingHeight = 0;
+    });
   }
 
   searchByVideoId(id : string) {
     this.searchService.getSearchResultsForVideo(id).subscribe((data : any) => {
       this.result.push(new Video(data.Id,data.Title, data.Thumbnails.MediumResUrl));
       if (this.result.length == 0) this.message = "No result found";
+      this.loading = 0;
+      this.loadingHeight = 0;
     },
-    error => this.message = "Couldn't conduct search succesfully");
+    error => {
+      this.message = "Couldn't conduct search succesfully";
+      this.loading = 0;
+      this.loadingHeight = 0;
+    });
   }
 
   searchByToken(token : string) {
     this.searchService.getSearchResultsForToken(token).subscribe((data : any) => {
       data.forEach(vid => this.result.push(new Video(vid.Id,vid.Title, vid.Thumbnails.MediumResUrl)));
       if (this.result.length == 0) this.message = "No result found";
+      this.loading = 0;
+      this.loadingHeight = 0;
     },
-    error => this.message = "Couldn't conduct search succesfully");
+    error => {
+      this.message = "Couldn't conduct search succesfully";
+      this.loading = 0;
+      this.loadingHeight = 0;
+    });
   }
 
   goToVideo(video : Video) {
