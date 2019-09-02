@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  SERVER_URL: "http://dds-ytdl-server.herokuapp.com"
+  SERVER_URL: "https://dds-ytdl-server.herokuapp.com"
 };
