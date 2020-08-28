@@ -1,4 +1,4 @@
-# YoutubeDownloader
+# YoutubeDownloader by DDS
 
 ## TODO
-Show more than 50 results for playlists
+Suggestions ? Discord : D0vid#8109
