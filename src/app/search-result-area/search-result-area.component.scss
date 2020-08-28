@@ -104,3 +104,18 @@
   opacity: 0;
   transition: 0.7s;
 }
+
+.duration {
+  background-color: rgba(0,0,0,0.8);
+  padding: 2px;
+  border-radius: 3px;
+  font-size: 12px;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}
+
+.thumbnailcontainer {
+  position: relative;
+  text-align: center;
+}

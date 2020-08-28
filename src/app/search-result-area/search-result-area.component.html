@@ -3,14 +3,17 @@
   <p *ngIf="message != ''" class="error">{{message}}</p>
   <a class="video" *ngFor="let video of result" href="{{downloadUrl}}{{video.id}}" target="_blank">
     <div class="cursorzone" >
-      <img class="image" src="{{video.thumbnail}}">
+      <div class="thumbnailcontainer">
+        <img class="image" src="{{video.thumbnail}}">
+        <span class="duration">{{video.duration}}</span>
+      </div>
       <div (click)="download(video)">
         <div class="overlay">
           <i class="fas fa-download fa-3x download"></i>
         </div>
-        <div class="text">{{video.title}}</div>
       </div>
     </div>
+    <div class="text">{{video.title}}</div>
     <span><i class="fas fa-download fa-3x mobile download"></i></span>
   </a>
 </div>

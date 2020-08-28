@@ -49,7 +49,7 @@ export class SearchResultAreaComponent implements OnInit {
 
   searchByPlaylistId(id : string) {
     this.searchService.getSearchResultsForPlaylist(id).subscribe((data : any) => {
-      data.forEach(vid => this.result.push(new Video(vid.Id.Value,vid.Title, vid.Thumbnails.MediumResUrl)));
+      data.forEach(vid => this.result.push(new Video(vid.Id.Value,vid.Title, vid.Thumbnails.MediumResUrl, vid.Duration)));
       if (this.result.length == 0) this.message = "No result found";
       this.loading = 0;
       this.loadingHeight = 0;
@@ -63,10 +63,11 @@ export class SearchResultAreaComponent implements OnInit {
 
   searchByVideoId(id : string) {
     this.searchService.getSearchResultsForVideo(id).subscribe((data : any) => {
-      this.result.push(new Video(data.Id.Value,data.Title, data.Thumbnails.MediumResUrl));
+      this.result.push(new Video(data.Id.Value,data.Title, data.Thumbnails.MediumResUrl, data.Duration));
       if (this.result.length == 0) this.message = "No result found";
       this.loading = 0;
       this.loadingHeight = 0;
+      console.log(data);
     },
     error => {
       this.message = "Couldn't conduct search succesfully";
@@ -77,7 +78,7 @@ export class SearchResultAreaComponent implements OnInit {
 
   searchByToken(token : string) {
     this.searchService.getSearchResultsForToken(token).subscribe((data : any) => {
-      data.forEach(vid => this.result.push(new Video(vid.Id.Value,vid.Title, vid.Thumbnails.MediumResUrl)));
+      data.forEach(vid => this.result.push(new Video(vid.Id.Value,vid.Title, vid.Thumbnails.MediumResUrl, vid.Duration)));
       if (this.result.length == 0) this.message = "No result found";
       this.loading = 0;
       this.loadingHeight = 0;
