@@ -21,6 +21,7 @@ export class SearchResultAreaComponent implements OnInit {
   message : string = "";
   loading : number = 0;
   loadingHeight : number = 0;
+  downloadUrl : string = `${environment.SERVER_URL}/download/`;
 
   constructor(private searchService : SearchService, private handler : TokenHandler) { }
 
@@ -90,9 +91,5 @@ export class SearchResultAreaComponent implements OnInit {
 
   goToVideo(video : Video) {
     window.open(video.getUrl(), '_blank');
-  }
-
-  download(video : Video) {
-    window.open(`${environment.SERVER_URL}/download/${video.id}`, '_blank');
   }
 }

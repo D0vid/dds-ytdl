@@ -1,7 +1,7 @@
 <img class="loading" src="assets/loading.gif" [style.opacity]="loading" [style.height.px]="loadingHeight"/>
 <div class="videos">
   <p *ngIf="message != ''" class="error">{{message}}</p>
-  <div class="video" *ngFor="let video of result">
+  <a class="video" *ngFor="let video of result" href="{{downloadUrl}}{{video.id}}" target="_blank">
     <div class="cursorzone" >
       <img class="image" src="{{video.thumbnail}}">
       <div (click)="download(video)">
@@ -11,7 +11,7 @@
         <div class="text">{{video.title}}</div>
       </div>
     </div>
-    <span><i class="fas fa-download fa-3x mobile download" (click)="download(video)"></i></span>
-  </div>
+    <span><i class="fas fa-download fa-3x mobile download"></i></span>
+  </a>
 </div>
 
